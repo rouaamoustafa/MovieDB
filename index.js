@@ -115,6 +115,43 @@ app.get('/movies/read/by-title', (req, res) => {
 });
 
 
+//Step 7
+app.get('/movies/read/id/<ID>', (req, res) => {
+  const movieId = parseInt(req.params.id); 
+  const movie = movies.find(m => m.id === movieId); 
+
+  if (search) {
+    res.json({
+      status: 200,
+      data: movie
+    });
+  } else {
+    res.status(404).json({
+      status:404, 
+      error:true,
+      message:`the movie ${movie_id} does not exist`
+    });
+  }
+});
+
+///Using Query:
+// app.get('/movies/read', (req, res) => {
+//   const movieId = parseInt(req.query.id); // Get the ID from the query string
+//   const movie = movies.find(m => m.id === movieId); // Find the movie by its ID
+
+//   if (movie) {
+//     res.json({
+//       status: 200,
+//       data: movie
+//     });
+//   } else {
+//     res.status(404).json({
+//       status: 404,
+//       error: true,
+//       message: `The movie with ID ${movieId} does not exist.`
+//     });
+//   }
+// });
 
 
 
