@@ -153,7 +153,43 @@ app.get('/movies/read/id/<ID>', (req, res) => {
 //   }
 // });
 
+//Step 9
+// Route to add a new movie
+app.get('/movies/add', (req, res) => {
+  const { title, year, rating } = req.query;
 
+ 
+  if (!title || !year || isNaN(year) || year.length !== 4) {
+    res.status(403).json({
+      status: 403,
+      error: true,
+      message: 'You cannot create a movie without providing a title and a year'
+    });
+  }
+  else{
+    const movieRating = rating ? parseFloat(rating) : 4;
+
+    // Create the new movie object
+    const newMovie = {
+      id: movies.length + 1,  // Simple way to generate a unique ID
+      title: title,
+      year: parseInt(year),
+      rating: movieRating
+    };
+  
+    
+    movies.push(newMovie);
+  
+    // Respond with the updated list of movies
+    res.json({
+      status: 200,
+      data: movies
+    });
+  }
+
+  
+ 
+});
 
 // Define a fallback route for unmatched URLs
 app.use((req, res) => {
@@ -164,3 +200,4 @@ app.use((req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
