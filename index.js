@@ -86,7 +86,33 @@ app.get('/movies/delete', (req, res) => {
   res.send('Movies: Delete route');
 });
 
+//Step 6
+// Route: /movies/read/by-date
+app.get('/movies/read/by-date', (req, res) => {
+  const sortedByDate = [...movies].sort((a, b) => a.year - b.year); 
+  res.json({
+    status: 200,
+    data: sortedByDate
+  });
+});
 
+// Route: /movies/read/by-rating
+app.get('/movies/read/by-rating', (req, res) => {
+  const sortedByRating = [...movies].sort((a, b) => b.rating - a.rating);
+  res.json({
+    status: 200,
+    data: sortedByRating
+  });
+});
+
+// Route: /movies/read/by-title
+app.get('/movies/read/by-title', (req, res) => {
+  const sortedByTitle = [...movies].sort((a, b) => a.title.localeCompare(b.title)); 
+  res.json({
+    status: 200,
+    data: sortedByTitle
+  });
+});
 
 
 
