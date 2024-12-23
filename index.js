@@ -154,7 +154,6 @@ app.get('/movies/read/id/<ID>', (req, res) => {
 // });
 
 //Step 8
-// Route to add a new movie
 app.get('/movies/add', (req, res) => {
   const { title, year, rating } = req.query;
 
@@ -192,7 +191,6 @@ app.get('/movies/add', (req, res) => {
 });
 
 //Step 9
-// Route to delete a movie by ID
 app.get('/movies/delete/:id', (req, res) => {
   const movieId = parseInt(req.params.id); 
   const movieIndex = movies.findIndex(m => m.id === movieId);
@@ -212,6 +210,34 @@ app.get('/movies/delete/:id', (req, res) => {
   }
 });
 
+
+//Step 10
+// Route: /movies/update/<ID>
+app.get('/movies/update/:id', (req, res) => {
+  const movieId = parseInt(req.params.id);
+  const movie = movies.find(m => m.id === movieId); 
+
+  if (!movie) {
+    return res.status(404).json({
+      status: 404,
+      error: true,
+      message: `Movie with ID ${movieId} does not exist`
+    });
+  }
+
+  const { title, rating } = req.query;
+  if (title) {
+    movie.title = title; // Update title if provided
+  }
+  if (rating) {
+    movie.rating = parseFloat(rating); // Update rating if provided
+  }
+
+  res.json({
+    status: 200,
+    data: movies
+  });
+});
 
 
 
