@@ -153,7 +153,7 @@ app.get('/movies/read/id/<ID>', (req, res) => {
 //   }
 // });
 
-//Step 9
+//Step 8
 // Route to add a new movie
 app.get('/movies/add', (req, res) => {
   const { title, year, rating } = req.query;
@@ -171,7 +171,7 @@ app.get('/movies/add', (req, res) => {
 
     // Create the new movie object
     const newMovie = {
-      id: movies.length + 1,  // Simple way to generate a unique ID
+      id: movies.length + 1,  
       title: title,
       year: parseInt(year),
       rating: movieRating
@@ -190,6 +190,34 @@ app.get('/movies/add', (req, res) => {
   
  
 });
+
+//Step 9
+// Route to delete a movie by ID
+app.get('/movies/delete/:id', (req, res) => {
+  const movieId = parseInt(req.params.id); 
+  const movieIndex = movies.findIndex(m => m.id === movieId);
+  if (movieIndex === -1) {
+    res.status(404).json({
+      status: 404,
+      error: true,
+      message: `the movie ${movieId} does not exist`
+    });
+  }
+  else{
+    movies.splice(movieIndex, 1);
+    res.json({
+      status: 200,
+      data: movies
+    });
+  }
+});
+
+
+
+
+
+
+
 
 // Define a fallback route for unmatched URLs
 app.use((req, res) => {
